@@ -28,23 +28,27 @@ sequelize.authenticate().then(function (e) {
 
 //Create Table: image
 
-var Image_Store = sequelize.define('image', {
-	image_id: {
+var Route_Store = sequelize.define('image', {
+	  name: {
+		type: Sequelize.STRING
+	  },
+	  grade: {
+		type: Sequelize.STRING
+	  },
+	  description: {
+		type: Sequelize.STRING
+	  },
+	  gymID: {
 		type: Sequelize.INTEGER
-	},
-	image_type: {
+	  },
+	  image_type: {
 		type: Sequelize.STRING,
 		allowNull: false
-	},
-	image: {
+	  },
+	  image: {
 		type: Sequelize.BLOB('long')
-	},
-	image_size: {
-		type: Sequelize.INTEGER
-	},
-	image_name: {
-		type: Sequelize.STRING
-	}
+	  },
+	
 });
 
 sequelize.sync({
@@ -55,18 +59,20 @@ sequelize.sync({
 	console.log('Everything is synced');
 	
 	//Give any image name here.
-	var imageData = FS.readFileSync(__dirname + '/123_icon.png');
+	var imageData = FS.readFileSync(__dirname + '/test-image.png');
 
-	Image_Store.create({
-		image_id: 123,
+	Route_Store.create({
+		name: 'Route test',
+		grade: '7a+',
+		description: 'This route are awesome',
+		gymID: 1,
 		image_type: 'png',
 		image: imageData,
-		image_size: 3,
-		image_name: 'FileName'
+		image_name: 'test-route'
 	}).then(function (image_store) {
 		try {
 			//console.log(image_store.image)
-			FS.writeFileSync(__dirname + '/target.png', image_store.image);
+			FS.writeFileSync(__dirname + '/routeImg/target.png', image_store.image);
 		} catch (e) {
 			console.log(e+'');
 		}
